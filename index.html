@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Too Hot For School — Sign The Petition</title>
+<style>
+  :root {
+    --cream: #FFF8EC;
+    --sun: #FF6B35;
+    --burnt: #C1440E;
+    --yellow: #FFD23F;
+    --ink: #1A1A1A;
+    --ink-soft: #4a4540;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* heat shimmer background layer */
+  .shimmer-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(255,107,53,0.18), transparent 45%),
+      radial-gradient(circle at 85% 25%, rgba(255,210,63,0.22), transparent 40%),
+      radial-gradient(circle at 50% 90%, rgba(193,68,14,0.12), transparent 50%);
+    pointer-events: none;
+    animation: drift 14s ease-in-out infinite alternate;
+  }
+
+  @keyframes drift {
+    0% { filter: blur(0px); transform: scale(1); }
+    100% { filter: blur(2px); transform: scale(1.04); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shimmer-bg { animation: none; }
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* HERO */
+  header.hero {
+    padding: 64px 0 40px;
+    text-align: center;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--burnt);
+    background: rgba(255,210,63,0.4);
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 28px;
+  }
+
+  .sun-emoji {
+    display: inline-block;
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.18); }
+  }
+
+  h1 {
+    font-family: Arial, sans-serif;
+    font-weight: 900;
+    font-stretch: condensed;
+    font-size: clamp(48px, 11vw, 92px);
+    line-height: 0.96;
+    letter-spacing: -0.02em;
+    margin: 0 0 20px;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  h1 .hot-word {
+    color: var(--sun);
+    -webkit-text-stroke: 2px var(--ink);
+    text-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .hero-sub {
+    font-size: clamp(16px, 2.6vw, 19px);
+    color: var(--ink-soft);
+    max-width: 480px;
+    margin: 0 auto 36px;
+    line-height: 1.5;
+  }
+
+  .hero-sub strong { color: var(--burnt); }
+
+  /* HEAT INDEX GAUGE — signature element */
+  .gauge-card {
+    background: var(--ink);
+    border-radius: 20px;
+    padding: 28px 24px;
+    color: var(--cream);
+    margin-bottom: 8px;
+    box-shadow: 0 12px 0 rgba(26,26,26,0.08);
+  }
+
+  .gauge-label {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .gauge-track {
+    position: relative;
+    height: 14px;
+    background: rgba(255,248,236,0.12);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+
+  .gauge-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 8%;
+    background: linear-gradient(90deg, var(--sun), var(--yellow));
+    border-radius: 999px;
+    transition: width 0.6s cubic-bezier(.2,.8,.2,1);
+  }
+
+  .gauge-readout {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .gauge-temp {
+    font-size: clamp(20px, 7.5vw, 34px);
+    font-weight: 900;
+    font-family: Arial, sans-serif;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .gauge-status {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255,248,236,0.75);
+  }
+
+  .gauge-count {
+    font-size: 13px;
+    color: rgba(255,248,236,0.55);
+    margin-top: 6px;
+  }
+
+  /* FORM */
+  .sign-card {
+    background: #fff;
+    border: 3px solid var(--ink);
+    border-radius: 20px;
+    padding: 28px;
+    margin-top: 32px;
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+
+  .sign-card h2 {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 4px;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  .sign-card p.hint {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0 0 20px;
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+
+  .field {
+    margin-bottom: 16px;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 13px 14px;
+    font-size: 16px;
+    border: 2px solid #ddd5c4;
+    border-radius: 10px;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: inherit;
+    transition: border-color 0.15s ease;
+  }
+
+  input[type="text"]:focus {
+    outline: 3px solid var(--sun);
+    outline-offset: 1px;
+    border-color: var(--sun);
+  }
+
+  .row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  @media (max-width: 480px) {
+    .row-2 { grid-template-columns: 1fr; }
+  }
+
+  button.sign-btn {
+    width: 100%;
+    padding: 16px;
+    margin-top: 6px;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: var(--sun);
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 var(--ink);
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
+  }
+
+  button.sign-btn:hover { background: var(--burnt); }
+
+  button.sign-btn:active {
+    transform: translate(3px, 3px);
+    box-shadow: 1px 1px 0 var(--ink);
+  }
+
+  button.sign-btn:focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 3px;
+  }
+
+  .msg {
+    font-size: 14px;
+    margin-top: 12px;
+    font-weight: 600;
+    min-height: 20px;
+  }
+
+  .msg.error { color: var(--burnt); }
+  .msg.success { color: #2e7d32; }
+
+  /* SIGNATURE LIST */
+  .list-section {
+    margin-top: 40px;
+  }
+
+  .list-section h3 {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin: 0 0 14px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .sig-list {
+    list-style: none;
+    margin: 0 0 20px;
+    padding: 0;
+    max-height: 260px;
+    overflow-y: auto;
+    border-top: 2px dashed #ddd5c4;
+  }
+
+  .sig-list li {
+    padding: 11px 4px;
+    border-bottom: 2px dashed #ddd5c4;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    gap: 10px;
+  }
+
+  .sig-list li .sig-name { font-weight: 700; }
+  .sig-list li .sig-grade { color: var(--ink-soft); white-space: nowrap; }
+
+  .empty-state {
+    padding: 28px 4px;
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 14px;
+    border-top: 2px dashed #ddd5c4;
+  }
+
+  footer code {
+    background: rgba(26,26,26,0.06);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin-top: 48px;
+    line-height: 1.6;
+  }
+
+  .crack {
+    height: 6px;
+    background: repeating-linear-gradient(45deg, var(--sun) 0 10px, var(--yellow) 10px 20px);
+    border-radius: 3px;
+    margin: 40px 0 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="shimmer-bg"></div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow"><span class="sun-emoji">☀️</span> Heat advisory: classroom edition</div>
+    <h1>It's <span class="hot-word">too hot</span><br>for school</h1>
+    <p class="hero-sub">
+      Sign here — <strong>we may be able to skip!</strong> Add your name
+      below and help us make the case.
+    </p>
+  </header>
+
+  <div class="gauge-card">
+    <div class="gauge-label">Classroom heat index</div>
+    <div class="gauge-track">
+      <div class="gauge-fill" id="gaugeFill"></div>
+    </div>
+    <div class="gauge-readout">
+      <span class="gauge-temp" id="gaugeTemp">99999999°</span>
+      <span class="gauge-status" id="gaugeStatus">too hot</span>
+    </div>
+    <div class="gauge-count" id="gaugeCount">0 people have signed so far</div>
+  </div>
+
+  <div class="sign-card">
+    <h2>Add your signature</h2>
+    <p class="hint">Your name and grade go on the petition list below.</p>
+
+    <form id="signForm" novalidate>
+      <div class="row-2">
+        <div class="field">
+          <label for="fname">First name</label>
+          <input type="text" id="fname" name="fname" autocomplete="given-name" required>
+        </div>
+        <div class="field">
+          <label for="lname">Last name</label>
+          <input type="text" id="lname" name="lname" autocomplete="family-name" required>
+        </div>
+      </div>
+      <div class="field">
+        <label for="grade">Grade / year</label>
+        <input type="text" id="grade" name="grade" placeholder="e.g. Year 10" required>
+      </div>
+      <button type="submit" class="sign-btn">Sign here — let's skip!</button>
+      <div class="msg" id="formMsg" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+
+  <div class="crack"></div>
+
+  <div class="list-section">
+    <h3><span>Signed so far</span> <span id="listCount">0</span></h3>
+    <ul class="sig-list" id="sigList"></ul>
+    <div class="empty-state" id="emptyState">No signatures yet. Be the first to add your name.</div>
+  </div>
+
+  <footer>
+    Signing opens a GitHub Issue with your name pre-filled — hit submit there
+    and you're on the official list. Signatures are public and stored in this
+    repo's <code>names.txt</code>.
+  </footer>
+
+</div>
+
+<script>
+  const GH_OWNER = 'bagelbyteyt-web';
+  const GH_REPO = 'school-petition';
+  const NAMES_RAW_URL = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/names.txt`;
+  const NEW_ISSUE_BASE = `https://github.com/${GH_OWNER}/${GH_REPO}/issues/new`;
+
+  const form = document.getElementById('signForm');
+  const fname = document.getElementById('fname');
+  const lname = document.getElementById('lname');
+  const grade = document.getElementById('grade');
+  const formMsg = document.getElementById('formMsg');
+  const sigList = document.getElementById('sigList');
+  const emptyState = document.getElementById('emptyState');
+  const listCount = document.getElementById('listCount');
+  const gaugeFill = document.getElementById('gaugeFill');
+  const gaugeTemp = document.getElementById('gaugeTemp');
+  const gaugeStatus = document.getElementById('gaugeStatus');
+  const gaugeCount = document.getElementById('gaugeCount');
+
+  function statusForCount(n) {
+    const pct = n === 0 ? 8 : Math.min(8 + n * 2, 100);
+    return { temp: '99999999°', status: 'too hot', pct: pct };
+  }
+
+  function parseNamesTxt(text) {
+    // Each line expected as "Name — Grade" (written by the GitHub Action).
+    // Falls back to showing the raw line if the format doesn't match.
+    return text
+      .split('\n')
+      .map(l => l.trim())
+      .filter(Boolean)
+      .map(line => {
+        const parts = line.split('—');
+        if (parts.length >= 2) {
+          return { name: parts[0].trim(), grade: parts.slice(1).join('—').trim() };
+        }
+        return { name: line, grade: '' };
+      });
+  }
+
+  function renderGauge(count) {
+    const s = statusForCount(count);
+    gaugeTemp.textContent = s.temp;
+    gaugeStatus.textContent = s.status;
+    gaugeFill.style.width = s.pct + '%';
+    gaugeCount.textContent = count === 1
+      ? '1 person has signed so far'
+      : count + ' people have signed so far';
+  }
+
+  function renderList(sigs) {
+    listCount.textContent = sigs.length;
+    sigList.innerHTML = '';
+
+    if (sigs.length === 0) {
+      emptyState.style.display = 'block';
+      return;
+    }
+    emptyState.style.display = 'none';
+    sigs.forEach(sig => {
+      const li = document.createElement('li');
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'sig-name';
+      nameSpan.textContent = sig.name;
+      const gradeSpan = document.createElement('span');
+      gradeSpan.className = 'sig-grade';
+      gradeSpan.textContent = sig.grade;
+      li.appendChild(nameSpan);
+      li.appendChild(gradeSpan);
+      sigList.appendChild(li);
+    });
+  }
+
+  async function loadFromGitHub() {
+    try {
+      const res = await fetch(NAMES_RAW_URL + '?t=' + Date.now());
+      if (!res.ok) throw new Error('names.txt not found yet');
+      const text = await res.text();
+      const sigs = parseNamesTxt(text);
+      renderGauge(sigs.length);
+      renderList(sigs);
+    } catch (e) {
+      // File may not exist yet (e.g. before the first signature is merged).
+      renderGauge(0);
+      renderList([]);
+    }
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const fn = fname.value.trim();
+    const ln = lname.value.trim();
+    const gr = grade.value.trim();
+
+    if (!fn || !ln || !gr) {
+      formMsg.textContent = 'Fill in your first name, last name, and grade.';
+      formMsg.className = 'msg error';
+      return;
+    }
+
+    const title = encodeURIComponent(`Signature: ${fn} ${ln}`);
+    const body = encodeURIComponent(`Name: ${fn} ${ln}\nGrade: ${gr}`);
+    const issueUrl = `${NEW_ISSUE_BASE}?template=signature.yml&title=${title}&full_name=${encodeURIComponent(fn + ' ' + ln)}&grade=${encodeURIComponent(gr)}`;
+
+    formMsg.textContent = 'Opening GitHub — click "Submit new issue" there to finish signing.';
+    formMsg.className = 'msg success';
+    window.open(issueUrl, '_blank');
+  });
+
+  renderGauge(0);
+  renderList([]);
+  loadFromGitHub();
+</script>
+
+</body>
+</html>
